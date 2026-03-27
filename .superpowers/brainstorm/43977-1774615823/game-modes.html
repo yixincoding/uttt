@@ -1,0 +1,73 @@
+<h2>Game Modes & AI Difficulty</h2>
+<p class="subtitle">How do you want to play?</p>
+
+<div class="options">
+  <div class="option" data-choice="pvp" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Player vs Player (Local)</h3>
+      <p>Two players on the same device. Take turns.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="ai" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Player vs AI</h3>
+      <p>Challenge the computer. Choose difficulty below.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 32px;">
+  <h3>AI Difficulty Levels</h3>
+  <p class="subtitle" style="font-size: 13px;">These apply to AI mode. Simple/Median/Hard as you described.</p>
+  
+  <div class="pros-cons" style="margin-top: 16px;">
+    <div class="pros">
+      <h4>🟢 Simple</h4>
+      <ul>
+        <li>Random moves 80% of time</li>
+        <li>Only blocks/wins when obvious</li>
+        <li>Great for learning</li>
+      </ul>
+    </div>
+    <div class="pros">
+      <h4>🟡 Median</h4>
+      <ul>
+        <li>Minimax depth 2-3</li>
+        <li>20% "noise" factor</li>
+        <li>Balanced challenge</li>
+      </ul>
+    </div>
+    <div class="pros">
+      <h4>🔴 Hard</h4>
+      <ul>
+        <li>Minimax + Alpha-Beta</li>
+        <li>Depth 5-7 moves</li>
+        <li>Prioritizes dead boards</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="options" style="margin-top: 24px;">
+  <div class="option" data-choice="simple" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h4>Simple AI</h4>
+    </div>
+  </div>
+  <div class="option" data-choice="median" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h4>Median AI</h4>
+    </div>
+  </div>
+  <div class="option" data-choice="hard" onclick="toggleSelect(this)">
+    <div class="letter">3</div>
+    <div class="content">
+      <h4>Hard AI</h4>
+    </div>
+  </div>
+</div>

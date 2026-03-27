@@ -1,0 +1,83 @@
+<h2>Game Mode Selection Flow</h2>
+<p class="subtitle">Choose your game mode. AI difficulty appears only if you select vs AI.</p>
+
+<div class="mockup">
+  <div class="mockup-header">Selection Flow</div>
+  <div class="mockup-body">
+    <style>
+      .flow-container { display: flex; flex-direction: column; gap: 16px; font-size: 14px; }
+      .step { display: flex; align-items: center; gap: 12px; }
+      .step-num { background: #6366f1; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; }
+      .step.disabled { opacity: 0.4; }
+      .choices { display: flex; gap: 8px; margin-left: 36px; margin-top: -8px; }
+      .choice-btn { padding: 8px 16px; border-radius: 6px; border: 2px solid #6366f1; background: white; cursor: pointer; font-weight: 500; }
+      .choice-btn.selected { background: #6366f1; color: white; }
+      .choice-btn:hover { background: #eef2ff; }
+    </style>
+    <div class="flow-container">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <strong>Select Game Mode</strong>
+          <div class="choices">
+            <button class="choice-btn" id="pvp-btn" onclick="selectMode('pvp')">Player vs Player</button>
+            <button class="choice-btn" id="ai-btn" onclick="selectMode('ai')">Player vs AI</button>
+          </div>
+        </div>
+      </div>
+      <div class="step disabled" id="step2">
+        <div class="step-num">2</div>
+        <div>
+          <strong>Select AI Difficulty</strong>
+          <div class="choices" id="difficulty-choices" style="display: none;">
+            <button class="choice-btn" onclick="selectDifficulty('simple')">🟢 Simple</button>
+            <button class="choice-btn" onclick="selectDifficulty('median')">🟡 Median</button>
+            <button class="choice-btn" onclick="selectDifficulty('hard')">🔴 Hard</button>
+          </div>
+        </div>
+      </div>
+      <div class="step disabled" id="step3">
+        <div class="step-num">3</div>
+        <div>
+          <strong>Start Game</strong>
+          <div class="choices">
+            <button class="choice-btn selected">Ready to Play!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let mode = null;
+      function selectMode(m) {
+        mode = m;
+        document.getElementById('pvp-btn').classList.toggle('selected', m === 'pvp');
+        document.getElementById('ai-btn').classList.toggle('selected', m === 'ai');
+        document.getElementById('step2').classList.toggle('disabled', m !== 'ai');
+        document.getElementById('difficulty-choices').style.display = m === 'ai' ? 'flex' : 'none';
+      }
+    </script>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>Summary of Your Requirements</h3>
+  <ul style="font-size: 14px; line-height: 1.8;">
+    <li>✅ Meta-Board with 9 Small Boards (81 cells total)</li>
+    <li>✅ Forced Move Rule with Wildcard exception</li>
+    <li>✅ Player vs Player AND Player vs AI modes</li>
+    <li>✅ AI Difficulty selection only shown for AI mode</li>
+    <li>✅ Simple / Median / Hard AI with your specified algorithms</li>
+    <li>✅ Visual: Neon Cyberpunk theme</li>
+    <li>✅ Responsive design, animations, move history, reset</li>
+  </ul>
+</div>
+
+<div class="options" style="margin-top: 24px;">
+  <div class="option" data-choice="approved" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Design Approved</h3>
+      <p>Ready to write the spec and implement!</p>
+    </div>
+  </div>
+</div>

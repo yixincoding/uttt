@@ -1,0 +1,70 @@
+<h2>Visual Style</h2>
+<p class="subtitle">Choose the overall aesthetic for the game</p>
+
+<div class="cards">
+  <div class="card" data-choice="dark" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <style>
+        .dark-preview { background: #1f2937; padding: 16px; border-radius: 8px; }
+        .dark-board { display: grid; grid-template-columns: repeat(3, 60px); gap: 4px; }
+        .dark-cell { width: 60px; height: 60px; background: #374151; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #f9fafb; }
+      </style>
+      <div class="dark-preview">
+        <div class="dark-board">
+          <div class="dark-cell">X</div><div class="dark-cell">O</div><div class="dark-cell">X</div>
+          <div class="dark-cell"></div><div class="dark-cell">X</div><div class="dark-cell"></div>
+          <div class="dark-cell">O</div><div class="dark-cell"></div><div class="dark-cell"></div>
+        </div>
+        <p style="color: #9ca3af; font-size: 11px; margin-top: 8px;">Dark Mode Theme</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Dark Mode</h3>
+      <p>Modern dark theme with subtle contrasts. Easy on eyes for longer play sessions.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="light" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <style>
+        .light-preview { background: #f9fafb; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb; }
+        .light-board { display: grid; grid-template-columns: repeat(3, 60px); gap: 4px; }
+        .light-cell { width: 60px; height: 60px; background: white; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #111827; border: 1px solid #d1d5db; }
+      </style>
+      <div class="light-preview">
+        <div class="light-board">
+          <div class="light-cell">X</div><div class="light-cell">O</div><div class="light-cell">X</div>
+          <div class="light-cell"></div><div class="light-cell">X</div><div class="light-cell"></div>
+          <div class="light-cell">O</div><div class="light-cell"></div><div class="light-cell"></div>
+        </div>
+        <p style="color: #6b7280; font-size: 11px; margin-top: 8px;">Light Mode Theme</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Light Mode</h3>
+      <p>Clean, bright interface. Classic tic-tac-toe feel with modern polish.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="neon" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <style>
+        .neon-preview { background: #0f0f23; padding: 16px; border-radius: 8px; }
+        .neon-board { display: grid; grid-template-columns: repeat(3, 60px); gap: 4px; }
+        .neon-cell { width: 60px; height: 60px; background: #1a1a3e; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #00f5d4; text-shadow: 0 0 10px #00f5d4; border: 1px solid #00f5d4; box-shadow: 0 0 5px #00f5d455; }
+      </style>
+      <div class="neon-preview">
+        <div class="neon-board">
+          <div class="neon-cell">X</div><div class="neon-cell">O</div><div class="neon-cell">X</div>
+          <div class="neon-cell"></div><div class="neon-cell">X</div><div class="neon-cell"></div>
+          <div class="neon-cell">O</div><div class="neon-cell"></div><div class="neon-cell"></div>
+        </div>
+        <p style="color: #9ca3af; font-size: 11px; margin-top: 8px;">Neon Cyberpunk Theme</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Neon Cyberpunk</h3>
+      <p>Glowing effects and vibrant colors. For players who want that arcade feel.</p>
+    </div>
+  </div>
+</div>

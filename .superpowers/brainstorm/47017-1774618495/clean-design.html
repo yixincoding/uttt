@@ -1,0 +1,143 @@
+<h2>Ultimate Tic-Tac-Toe — Design v2</h2>
+<p class="subtitle">Sleek dark interface with subtle gradients and clean typography.</p>
+
+<style>
+  body { background: #0a0a0f; color: #e5e5e5; font-family: 'Segoe UI', system-ui, sans-serif; }
+  
+  .container { max-width: 600px; margin: 0 auto; padding: 24px; }
+  
+  .header { text-align: center; margin-bottom: 40px; }
+  .logo { font-size: 56px; font-weight: 800; letter-spacing: 12px; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .tagline { color: #888; font-size: 13px; letter-spacing: 4px; text-transform: uppercase; margin-top: 8px; }
+  
+  .card { background: linear-gradient(180deg, #151520 0%, #0d0d12 100%); border: 1px solid #2a2a35; border-radius: 20px; padding: 32px; margin-bottom: 20px; }
+  
+  .section-title { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #666; margin-bottom: 20px; text-align: center; }
+  
+  .btn-group { display: flex; gap: 12px; justify-content: center; }
+  
+  .btn { 
+    background: #1a1a24; 
+    border: 1px solid #333; 
+    color: #aaa; 
+    padding: 16px 28px; 
+    border-radius: 12px; 
+    font-size: 14px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: all 0.2s;
+    min-width: 140px;
+  }
+  .btn:hover { background: #252530; border-color: #555; color: #fff; }
+  .btn.selected { background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%); border-color: #667eea; color: #fff; box-shadow: 0 0 20px #667eea22; }
+  
+  .btn-sub { 
+    background: transparent; 
+    border: 1px solid #333; 
+    color: #888; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    font-size: 13px; 
+    cursor: pointer; 
+    transition: all 0.2s;
+  }
+  .btn-sub:hover { border-color: #667eea; color: #667eea; }
+  .btn-sub.selected { background: #667eea22; border-color: #667eea; color: #667eea; }
+  
+  .difficulty-row { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
+  
+  .preview-board { 
+    display: grid; grid-template-columns: repeat(3, 1fr); 
+    gap: 6px; 
+    max-width: 200px; 
+    margin: 24px auto 0;
+    padding: 16px;
+    background: #111;
+    border-radius: 12px;
+  }
+  .preview-cell { aspect-ratio: 1; background: #1a1a24; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
+  .preview-cell.x { color: #667eea; }
+  .preview-cell.o { color: #f472b6; }
+  
+  .summary { text-align: center; padding: 20px; background: #111; border-radius: 12px; margin-top: 20px; }
+  .summary-text { color: #888; font-size: 14px; }
+  .summary-value { color: #fff; font-size: 16px; font-weight: 600; margin-top: 4px; }
+</style>
+
+<div class="container">
+  <div class="header">
+    <h1 class="logo">TEN</h1>
+    <p class="tagline">Ultimate Tic-Tac-Toe</p>
+  </div>
+  
+  <div class="card">
+    <div class="section-title">Game Mode</div>
+    <div class="btn-group">
+      <button class="btn" id="btn-pvp" onclick="selectMode('pvp')">Player vs Player</button>
+      <button class="btn" id="btn-ai" onclick="selectMode('ai')">Player vs AI</button>
+    </div>
+    
+    <div id="diff-section" style="display: none; margin-top: 24px;">
+      <div class="section-title">AI Difficulty</div>
+      <div class="difficulty-row">
+        <button class="btn-sub" onclick="selectDiff('simple')">Simple</button>
+        <button class="btn-sub" onclick="selectDiff('median')">Median</button>
+        <button class="btn-sub" onclick="selectDiff('hard')">Hard</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card" id="start-card" style="display: none;">
+    <div class="preview-board">
+      <div class="preview-cell x">X</div><div class="preview-cell"></div><div class="preview-cell o">O</div>
+      <div class="preview-cell"></div><div class="preview-cell x">X</div><div class="preview-cell"></div>
+      <div class="preview-cell o">O</div><div class="preview-cell"></div><div class="preview-cell"></div>
+    </div>
+    <div class="summary">
+      <div class="summary-text">Ready to play</div>
+      <div class="summary-value" id="summary-text">—</div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button class="btn selected" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 16px 48px; font-size: 15px;">Start Game</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let mode = null, diff = null;
+  
+  function selectMode(m) {
+    mode = m;
+    document.getElementById('btn-pvp').classList.toggle('selected', m === 'pvp');
+    document.getElementById('btn-ai').classList.toggle('selected', m === 'ai');
+    document.getElementById('diff-section').style.display = m === 'ai' ? 'block' : 'none';
+    document.getElementById('start-card').style.display = 'block';
+    updateSummary();
+  }
+  
+  function selectDiff(d) {
+    diff = d;
+    document.querySelectorAll('.btn-sub').forEach(b => b.classList.remove('selected'));
+    event.target.classList.add('selected');
+    updateSummary();
+  }
+  
+  function updateSummary() {
+    const el = document.getElementById('summary-text');
+    if (mode === 'pvp') {
+      el.textContent = 'Local Multiplayer — X vs O';
+    } else if (mode === 'ai' && diff) {
+      el.textContent = `You vs ${diff.charAt(0).toUpperCase() + diff.slice(1)} AI`;
+    }
+  }
+</script>
+
+<div class="options" style="margin-top: 24px;">
+  <div class="option" data-choice="approved-v2" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Clean Design Approved</h3>
+      <p>Minimal dark theme with gradient accents. Ready for spec!</p>
+    </div>
+  </div>
+</div>

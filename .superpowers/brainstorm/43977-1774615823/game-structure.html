@@ -1,0 +1,89 @@
+<h2>Ultimate Tic-Tac-Toe: Meta-Board Structure</h2>
+<p class="subtitle">Each cell contains its own Small Board. Win 3 small boards in a row to win!</p>
+
+<div class="mockup">
+  <div class="mockup-header">Meta-Board (3x3 of Small Boards)</div>
+  <div class="mockup-body">
+    <style>
+      .meta-board { display: grid; grid-template-columns: repeat(3, 120px); gap: 8px; }
+      .small-board { display: grid; grid-template-columns: repeat(3, 36px); gap: 3px; background: #e5e7eb; padding: 6px; border-radius: 6px; }
+      .small-board-cell { width: 36px; height: 36px; background: white; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; cursor: pointer; }
+      .small-board-cell:hover { background: #f3f4f6; }
+      .small-board.claimed-x { background: #dbeafe; border: 2px solid #3b82f6; }
+      .small-board.claimed-o { background: #fef3c7; border: 2px solid #f59e0b; }
+      .small-board.active { box-shadow: 0 0 0 3px #10b981; }
+    </style>
+    <div class="meta-board">
+      <!-- Row 1 -->
+      <div class="small-board active">
+        <div class="small-board-cell">X</div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell">O</div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+      <div class="small-board">
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+      <div class="small-board claimed-x">
+        <div class="small-board-cell">X</div><div class="small-board-cell">X</div><div class="small-board-cell">X</div>
+        <div class="small-board-cell">O</div><div class="small-board-cell">O</div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+      <!-- Row 2 -->
+      <div class="small-board">
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+      <div class="small-board claimed-o">
+        <div class="small-board-cell">O</div><div class="small-board-cell">O</div><div class="small-board-cell"></div>
+        <div class="small-board-cell">X</div><div class="small-board-cell">X</div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+      <div class="small-board">
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+      <!-- Row 3 -->
+      <div class="small-board">
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+      <div class="small-board">
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+      <div class="small-board">
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+        <div class="small-board-cell"></div><div class="small-board-cell"></div><div class="small-board-cell"></div>
+      </div>
+    </div>
+    <p style="margin-top: 16px; font-size: 13px; color: #6b7280;">
+      <strong>Legend:</strong> Blue border = X won this board | Yellow border = O won this board | Green glow = Active board
+    </p>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>Key Game Rules</h3>
+  <ul style="font-size: 14px; line-height: 1.8;">
+    <li><strong>Forced Move:</strong> Play in the cell that matches where opponent played → You must play in that Small Board</li>
+    <li><strong>Wildcard:</strong> If sent to a won/full board, play ANYWHERE</li>
+    <li><strong>Win Condition:</strong> Claim 3 Small Boards in a row on the Meta-Board</li>
+  </ul>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="proceed" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>This structure looks right</h3>
+      <p>Let's move on to visual design and AI settings</p>
+    </div>
+  </div>
+</div>

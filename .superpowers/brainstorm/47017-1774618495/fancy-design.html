@@ -1,0 +1,145 @@
+<h2>Ultimate Tic-Tac-Toe — Design</h2>
+<p class="subtitle">Neon Cyberpunk aesthetic. Dark background with glowing accents.</p>
+
+<style>
+  .fancy-header { text-align: center; padding: 20px 0; }
+  .fancy-title { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; color: #00f5d4; text-shadow: 0 0 20px #00f5d4, 0 0 40px #00f5d455; margin: 0; }
+  .fancy-subtitle { color: #a855f7; text-shadow: 0 0 10px #a855f7; font-size: 14px; margin-top: 8px; letter-spacing: 2px; }
+  
+  .neon-card { background: linear-gradient(145deg, #1a1a3e 0%, #0f0f23 100%); border: 1px solid #00f5d433; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 0 30px #00f5d411, inset 0 0 30px #ffffff05; }
+  
+  .neon-btn { 
+    background: linear-gradient(135deg, #1a1a3e 0%, #0f0f23 100%); 
+    border: 2px solid #00f5d4; 
+    color: #00f5d4; 
+    padding: 16px 32px; 
+    border-radius: 8px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    cursor: pointer; 
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px #00f5d433;
+  }
+  .neon-btn:hover { 
+    background: #00f5d4; 
+    color: #0f0f23; 
+    box-shadow: 0 0 30px #00f5d4;
+    transform: translateY(-2px);
+  }
+  .neon-btn.ai { border-color: #a855f7; color: #a855f7; box-shadow: 0 0 15px #a855f733; }
+  .neon-btn.ai:hover { background: #a855f7; color: #0f0f23; box-shadow: 0 0 30px #a855f7; }
+  
+  .neon-btn-small {
+    background: transparent;
+    border: 1px solid #6366f1;
+    color: #6366f1;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .neon-btn-small:hover { background: #6366f1; color: white; }
+  .neon-btn-small.selected { background: #00f5d4; border-color: #00f5d4; color: #0f0f23; font-weight: bold; }
+  .neon-btn-small.difficulty.selected { background: #a855f7; border-color: #a855f7; color: white; }
+  
+  .mode-row { display: flex; gap: 16px; margin-bottom: 20px; justify-content: center; }
+  
+  .difficulty-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  
+  .status-bar { 
+    background: #0f0f23; 
+    border: 1px solid #00f5d455; 
+    border-radius: 8px; 
+    padding: 12px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 16px;
+  }
+  .status-item { color: #9ca3af; font-size: 13px; }
+  .status-item span { color: #00f5d4; font-weight: bold; }
+  .status-item.ai-turn span { color: #a855f7; }
+</style>
+
+<div class="fancy-header">
+  <h1 class="fancy-title">TEN</h1>
+  <p class="fancy-subtitle">Ultimate Tic-Tac-Toe</p>
+</div>
+
+<div class="neon-card">
+  <h3 style="color: #00f5d4; margin-top: 0; text-align: center;">Select Game Mode</h3>
+  
+  <div class="mode-row">
+    <button class="neon-btn" id="btn-pvp" onclick="selectMode('pvp')">Player vs Player</button>
+    <button class="neon-btn ai" id="btn-ai" onclick="selectMode('ai')">Player vs AI</button>
+  </div>
+  
+  <div id="difficulty-section" style="display: none; text-align: center;">
+    <p style="color: #a855f7; margin-bottom: 12px; font-size: 13px;">SELECT AI DIFFICULTY</p>
+    <div class="difficulty-row">
+      <button class="neon-btn-small difficulty" onclick="selectDifficulty('simple')">🟢 Simple</button>
+      <button class="neon-btn-small difficulty" onclick="selectDifficulty('median')">🟡 Median</button>
+      <button class="neon-btn-small difficulty" onclick="selectDifficulty('hard')">🔴 Hard</button>
+    </div>
+  </div>
+</div>
+
+<div class="neon-card" id="start-section" style="display: none; text-align: center;">
+  <p style="color: #00f5d4; margin-bottom: 16px;" id="mode-summary">Ready to play!</p>
+  <button class="neon-btn" onclick="confirmStart()">⚡ START GAME ⚡</button>
+</div>
+
+<script>
+  let mode = null;
+  let difficulty = null;
+  
+  function selectMode(m) {
+    mode = m;
+    document.getElementById('btn-pvp').classList.toggle('selected', m === 'pvp');
+    document.getElementById('btn-ai').classList.toggle('selected', m === 'ai');
+    document.getElementById('difficulty-section').style.display = m === 'ai' ? 'block' : 'none';
+    document.getElementById('start-section').style.display = 'block';
+    
+    if (m === 'pvp') {
+      document.getElementById('mode-summary').textContent = 'Player X vs Player O — Local Match';
+      document.querySelectorAll('.difficulty').forEach(b => b.classList.remove('selected'));
+      difficulty = null;
+    } else {
+      document.getElementById('mode-summary').textContent = 'You vs AI — Select difficulty above';
+    }
+  }
+  
+  function selectDifficulty(d) {
+    difficulty = d;
+    document.querySelectorAll('.difficulty').forEach(b => b.classList.remove('selected'));
+    event.target.classList.add('selected');
+    const labels = { simple: 'Simple', median: 'Median', hard: 'Hard' };
+    document.getElementById('mode-summary').textContent = `You vs ${labels[d]} AI`;
+  }
+  
+  function confirmStart() {
+    const selection = mode === 'pvp' ? 'pvp' : `${mode}-${difficulty}`;
+    alert('Starting: ' + selection);
+    // Signal selection for next step
+    if (typeof onSelectionComplete === 'function') {
+      onSelectionComplete(selection);
+    }
+  }
+  
+  window.onSelectionComplete = function(selection) {
+    console.log('SELECTION:' + selection);
+  };
+</script>
+
+<div class="options" style="margin-top: 24px;">
+  <div class="option" data-choice="fancy-approved" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Fancy Design Approved</h3>
+      <p>This neon cyberpunk style matches the game. Ready for spec & implementation!</p>
+    </div>
+  </div>
+</div>
