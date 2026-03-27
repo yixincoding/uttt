@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-bg min-h-screen;
+  @apply bg-bg min-h-screen text-gray-900;
 }
 
 @keyframes claim-pulse {

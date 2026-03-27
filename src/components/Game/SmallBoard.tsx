@@ -20,15 +20,22 @@ export default function SmallBoard({
   disabled
 }: SmallBoardProps) {
   const getBorderClass = () => {
-    if (boardState === 'x') return 'border-player-x';
-    if (boardState === 'o') return 'border-player-o';
-    if (boardState === 'draw') return 'border-gray-500';
-    if (isWildcard) return 'border-accent-secondary';
-    if (isActive) return 'border-accent';
-    return 'border-border';
+    if (boardState === 'x') return 'border-red-500 border-4';
+    if (boardState === 'o') return 'border-blue-500 border-4';
+    if (boardState === 'draw') return 'border-gray-400 border-2';
+    if (isWildcard) return 'border-purple-500 border-2';
+    if (isActive) return 'border-indigo-500 border-2';
+    return 'border-gray-300 border';
   };
 
-  const getWinningLine = (): number[] | null => {
+  const getBgClass = () => {
+    if (boardState) return 'bg-gray-50';
+    if (isActive) return 'bg-indigo-50';
+    if (isWildcard) return 'bg-purple-50';
+    return 'bg-white';
+  };
+
+  const winningLine = (() => {
     if (!boardState || boardState === 'draw') return null;
     for (const line of WINNING_LINES) {
       const [a, b, c] = line;
@@ -37,18 +44,15 @@ export default function SmallBoard({
       }
     }
     return null;
-  };
-
-  const winningLine = getWinningLine();
+  })();
 
   return (
     <div
       className={`
-        relative grid grid-cols-3 gap-1 p-2 rounded-xl
-        border-2 transition-all duration-200
+        relative grid grid-cols-3 gap-0.5 p-1 rounded-lg
+        transition-all duration-200
         ${getBorderClass()}
-        ${isActive && !boardState ? 'ring-2 ring-accent ring-offset-2 ring-offset-bg' : ''}
-        ${disabled && !boardState ? 'opacity-50' : ''}
+        ${getBgClass()}
       `}
     >
       {cells.map((cell, index) => (
@@ -64,12 +68,11 @@ export default function SmallBoard({
       {boardState && boardState !== 'draw' && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <span
-            className={`
-              text-6xl font-bold opacity-20
-              ${boardState === 'x' ? 'text-player-x' : 'text-player-o'}
-            `}
+            className={`text-4xl font-bold ${
+              boardState === 'x' ? 'text-red-400' : 'text-blue-400'
+            }`}
           >
-            {boardState === 'x' ? 'X' : 'O'}
+            {boardState.toUpperCase()}
           </span>
         </div>
       )}

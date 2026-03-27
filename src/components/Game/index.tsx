@@ -13,13 +13,13 @@ export default function Game() {
   const isAIThinking = state.aiMode !== 'none' && currentPlayer === 'o' && state.phase === 'playing';
 
   return (
-    <div className="min-h-screen bg-bg flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-2xl space-y-6">
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="max-w-lg mx-auto space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-text-primary">Ultimate Tic-Tac-Toe</h1>
+          <h1 className="text-xl font-bold text-gray-800">TEN</h1>
           <button
             onClick={resetGame}
-            className="px-4 py-2 rounded-lg bg-surface border border-border text-text-secondary hover:border-accent transition-colors"
+            className="px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm"
           >
             Reset
           </button>
@@ -27,13 +27,13 @@ export default function Game() {
 
         <div className="text-center">
           {state.winner ? (
-            <p className={`text-xl font-bold ${state.winner === 'x' ? 'text-player-x' : state.winner === 'o' ? 'text-player-o' : 'text-gray-500'}`}>
-              {state.winner === 'draw' ? "It's a Draw!" : `${state.winner.toUpperCase()} Wins!`}
+            <p className={`text-xl font-bold ${state.winner === 'x' ? 'text-red-500' : state.winner === 'o' ? 'text-blue-500' : 'text-gray-500'}`}>
+              {state.winner === 'draw' ? "Draw!" : `${state.winner} Wins!`}
             </p>
           ) : isAIThinking ? (
-            <p className="text-xl font-bold text-accent animate-pulse">AI Thinking...</p>
+            <p className="text-lg font-medium text-indigo-600">AI thinking...</p>
           ) : (
-            <p className={`text-xl font-bold ${currentPlayer === 'x' ? 'text-player-x' : 'text-player-o'}`}>
+            <p className={`text-lg font-bold ${currentPlayer === 'x' ? 'text-red-500' : 'text-blue-500'}`}>
               {currentPlayer.toUpperCase()}'s Turn
             </p>
           )}

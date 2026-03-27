@@ -9,7 +9,8 @@ interface MetaBoardProps {
 
 export default function MetaBoard({ state, onMove }: MetaBoardProps) {
   const handleCellClick = (boardIndex: number, cellIndex: number) => {
-    onMove(boardIndex, cellIndex);
+    const globalCellIndex = boardIndex * 9 + cellIndex;
+    onMove(boardIndex, globalCellIndex);
   };
 
   const getSmallBoardCells = (boardIndex: number) => {

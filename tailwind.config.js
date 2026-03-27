@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#0f0f0f',
-        surface: '#1a1a1a',
-        border: '#2a2a2a',
+        bg: '#f5f5f5',
+        surface: '#ffffff',
+        border: '#e5e5e5',
         accent: '#6366f1',
         'accent-secondary': '#8b5cf6',
         'player-x': '#ef4444',

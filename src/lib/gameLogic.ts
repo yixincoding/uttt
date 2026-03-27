@@ -104,9 +104,8 @@ export function applyMove(state: GameState, boardIndex: number, cellIndex: numbe
   if (boardResult !== null) {
     boards[boardIndex] = boardResult;
   }
-  const nextActiveBoard = boardResult === null ? cellIndex % 9 : null;
-  const boardsCopy = [...boards];
-  const finalActiveBoard = nextActiveBoard !== null && !isBoardPlayable(cells, boardsCopy, nextActiveBoard) ? null : nextActiveBoard;
+  const targetBoard = cellIndex % 9;
+  const finalActiveBoard = isBoardPlayable(cells, boards, targetBoard) ? targetBoard : null;
   const winner = checkMetaWinner(boards);
   return {
     ...state,
