@@ -1,0 +1,48 @@
+import { GameState } from '../../lib/types';
+import { getBoardCells, isBoardPlayable } from '../../lib/gameLogic';
+import SmallBoard from './SmallBoard';
+
+interface MetaBoardProps {
+  state: GameState;
+  onMove: (boardIndex: number, cellIndex: number) => void;
+}
+
+export default function MetaBoard({ state, onMove }: MetaBoardProps) {
+  const handleCellClick = (boardIndex: number, cellIndex: number) => {
+    onMove(boardIndex, cellIndex);
+  };
+
+  const getSmallBoardCells = (boardIndex: number) => {
+    return getBoardCells(boardIndex).map(i => state.cells[i]);
+  };
+
+  const isBoardActive = (boardIndex: number): boolean => {
+    if (state.boards[boardIndex] !== null) return false;
+    if (state.activeBoard !== null) {
+      return state.activeBoard === boardIndex;
+    }
+    return isBoardPlayable(state.cells, state.boards, boardIndex);
+  };
+
+  const isWildcard = (boardIndex: number): boolean => {
+    return state.activeBoard === null && isBoardPlayable(state.cells, state.boards, boardIndex);
+  };
+
+  const isDisabled = state.phase !== 'playing' || state.winner !== null;
+
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      {Array.from({ length: 9 }).map((_, boardIndex) => (
+        <SmallBoard
+          key={boardIndex}
+          cells={getSmallBoardCells(boardIndex)}
+          boardState={state.boards[boardIndex]}
+          isActive={isBoardActive(boardIndex)}
+          isWildcard={isWildcard(boardIndex)}
+          onCellClick={(cellIndex) => handleCellClick(boardIndex, cellIndex)}
+          disabled={isDisabled}
+        />
+      ))}
+    </div>
+  );
+}
