@@ -1,9 +1,5 @@
-function App() {
-  return (
-    <div>
-      TEN - Ultimate Tic-Tac-Toe
-    </div>
-  )
-}
+import Game from './components/Game';
 
-export default App
+export default function App() {
+  return <Game />;
+}
