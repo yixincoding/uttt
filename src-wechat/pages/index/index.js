@@ -46,8 +46,11 @@ Page({
     const { selectedMode } = this.data;
     if (!selectedMode) return;
 
+    console.log('onStart called, selectedMode:', selectedMode);
     const aiMode = selectedMode === '2p' ? 'none' : this.data.difficulty;
+    console.log('aiMode:', aiMode);
     const gameState = gameLogic.createInitialState(aiMode);
+    console.log('gameState created:', gameState);
 
     this.setData({
       gameState,
@@ -60,6 +63,7 @@ Page({
       isAIThinking: false,
       statusText: this.computeStatusText()
     });
+    console.log('setData called with phase: playing');
   },
 
   onReset() {
@@ -254,6 +258,7 @@ Page({
 
   getCellDisabled(boardIndex, cellIdx) {
     const { gameState, phase, isAIThinking, winner } = this.data;
+    console.log('getCellDisabled called:', { boardIndex, cellIdx, gameState: !!gameState, phase, isAIThinking, winner });
     if (!gameState || phase !== 'playing' || isAIThinking) return true;
     if (winner) return true;
     const globalIndex = boardIndex * 9 + cellIdx;
@@ -271,6 +276,7 @@ Page({
     if (boardState === 'o') return 'won-o';
     if (boardState === 'draw') return 'draw';
     if (gameState.activeBoard === boardIndex) return 'active';
+    console.log('getSmallBoardClass:', { boardIndex, boardState, activeBoard: gameState.activeBoard });
     return '';
   },
 
