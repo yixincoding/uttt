@@ -89,10 +89,9 @@ Page({
   onCellTap(e) {
     const dataset = e.currentTarget.dataset;
     console.log('dataset:', dataset);
-    console.log('board:', dataset.board);
-    console.log('datacell:', dataset.datacell);
+    console.log('ci:', dataset.ci);
     const boardIndex = parseInt(dataset.board, 10);
-    const cellIndex = parseInt(dataset.datacell, 10);
+    const cellIndex = parseInt(dataset.ci, 10);
     const globalCellIndex = boardIndex * 9 + cellIndex;
 
     console.log('onCellTap:', { boardIndex, cellIndex, globalCellIndex });
