@@ -87,13 +87,14 @@ Page({
   },
 
   onCellTap(e) {
-    const { boardindex, cellindex } = e.currentTarget.dataset;
-    const boardIndex = parseInt(boardindex, 10);
-    const cellIndex = parseInt(cellindex, 10);
+    const { board, cell } = e.currentTarget.dataset;
+    const boardIndex = parseInt(board, 10);
+    const cellIndex = parseInt(cell, 10);
     const globalCellIndex = boardIndex * 9 + cellIndex;
 
     const { gameState } = this.data;
     if (!gameLogic.canPlayMove(gameState, boardIndex, globalCellIndex)) {
+      console.log('canPlayMove failed:', { boardIndex, globalCellIndex, canPlay: gameLogic.canPlayMove(gameState, boardIndex, globalCellIndex) });
       return;
     }
 
