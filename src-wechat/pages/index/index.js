@@ -97,7 +97,7 @@ Page({
   },
 
   makeMove(boardIndex, cellIndex) {
-    const { gameState } = this.data;
+    const { gameState, isAIThinking } = this.data;
     const newState = gameLogic.applyMove(gameState, boardIndex, cellIndex);
 
     const winner = newState.winner;
@@ -108,6 +108,7 @@ Page({
       currentPlayer: newState.currentPlayer,
       winner,
       phase,
+      isAIThinking: false,
       statusText: this.computeStatusText()
     });
 
