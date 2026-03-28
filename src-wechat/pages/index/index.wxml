@@ -52,16 +52,39 @@
         wx:for="{{3}}" 
         wx:for-index="col">
         <view class="cells-grid">
-          <button 
-            class="cell {{getCellClass(row * 3 + col, cellIdx)}}" 
-            wx:for="{{3}}" 
-            wx:for-index="cellIdx"
-            bindtap="onCellTap" 
-            data-board="{{row * 3 + col}}" 
-            data-cell="{{cellIdx}}"
-            disabled="{{getCellDisabled(row * 3 + col, cellIdx)}}">
-            <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + cellIdx] === 'x' ? 'x-mark' : 'o-mark'}}">{{getCellValue(row * 3 + col, cellIdx)}}</text>
-          </button>
+          <view class="cell-row">
+            <button class="cell {{getCellClass(row * 3 + col, 0)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="0" disabled="{{getCellDisabled(row * 3 + col, 0)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 0)}}</text>
+            </button>
+            <button class="cell {{getCellClass(row * 3 + col, 1)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="1" disabled="{{getCellDisabled(row * 3 + col, 1)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + 1] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9 + 1] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 1)}}</text>
+            </button>
+            <button class="cell {{getCellClass(row * 3 + col, 2)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="2" disabled="{{getCellDisabled(row * 3 + col, 2)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + 2] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9 + 2] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 2)}}</text>
+            </button>
+          </view>
+          <view class="cell-row">
+            <button class="cell {{getCellClass(row * 3 + col, 3)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="3" disabled="{{getCellDisabled(row * 3 + col, 3)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + 3] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9 + 3] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 3)}}</text>
+            </button>
+            <button class="cell {{getCellClass(row * 3 + col, 4)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="4" disabled="{{getCellDisabled(row * 3 + col, 4)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + 4] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9 + 4] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 4)}}</text>
+            </button>
+            <button class="cell {{getCellClass(row * 3 + col, 5)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="5" disabled="{{getCellDisabled(row * 3 + col, 5)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + 5] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9 + 5] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 5)}}</text>
+            </button>
+          </view>
+          <view class="cell-row">
+            <button class="cell {{getCellClass(row * 3 + col, 6)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="6" disabled="{{getCellDisabled(row * 3 + col, 6)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + 6] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9 + 6] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 6)}}</text>
+            </button>
+            <button class="cell {{getCellClass(row * 3 + col, 7)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="7" disabled="{{getCellDisabled(row * 3 + col, 7)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + 7] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9 + 7] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 7)}}</text>
+            </button>
+            <button class="cell {{getCellClass(row * 3 + col, 8)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="8" disabled="{{getCellDisabled(row * 3 + col, 8)}}">
+              <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + 8] === 'x' ? 'x-mark' : gameState.cells[(row * 3 + col) * 9 + 8] === 'o' ? 'o-mark' : ''}}">{{getCellValue(row * 3 + col, 8)}}</text>
+            </button>
+          </view>
         </view>
         <view class="winner-overlay" wx:if="{{getSmallBoardWinner(row * 3 + col)}}">
           <text class="winner-text {{getSmallBoardWinner(row * 3 + col) === 'x' ? 'x-mark' : 'o-mark'}}">{{getSmallBoardWinner(row * 3 + col) === 'x' ? 'X' : 'O'}}</text>
