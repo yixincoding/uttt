@@ -13,13 +13,23 @@ Page({
     hasLogin: false,
     winner: null,
     currentPlayer: 'x',
-    statusText: 'Select mode to start'
+    statusText: 'Select mode to start',
+    showRules: false
   },
 
   onLoad(options) {
+    const seenRules = wx.getStorageSync('seenRules');
+    if (!seenRules) {
+      this.setData({ showRules: true });
+    }
     if (options.mode) {
       this.setData({ selectedMode: options.mode });
     }
+  },
+
+  onCloseRules() {
+    wx.setStorageSync('seenRules', 'true');
+    this.setData({ showRules: false });
   },
 
   onSelectMode(e) {

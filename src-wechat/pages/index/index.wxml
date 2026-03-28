@@ -75,4 +75,159 @@
       </view>
     </view>
   </view>
+
+  <!-- Rules Modal -->
+  <view class="rules-modal" wx:if="{{showRules}}">
+    <view class="rules-content">
+      <text class="rules-title">How to Play</text>
+      
+      <!-- Section 1: The Board -->
+      <view class="rules-section">
+        <text class="rules-heading">1. The Board</text>
+        <text class="rules-text">TEN is played on a meta-board of 9 small boards. Each board contains 9 cells (3×3). That's 81 cells total.</text>
+        <view class="meta-board-visual">
+          <view class="meta-row">
+            <view class="mini-board"><text class="mini-cell-text">0</text></view>
+            <view class="mini-board"><text class="mini-cell-text">1</text></view>
+            <view class="mini-board"><text class="mini-cell-text">2</text></view>
+          </view>
+          <view class="meta-row">
+            <view class="mini-board"><text class="mini-cell-text">3</text></view>
+            <view class="mini-board"><text class="mini-cell-text">4</text></view>
+            <view class="mini-board"><text class="mini-cell-text">5</text></view>
+          </view>
+          <view class="meta-row">
+            <view class="mini-board"><text class="mini-cell-text">6</text></view>
+            <view class="mini-board"><text class="mini-cell-text">7</text></view>
+            <view class="mini-board"><text class="mini-cell-text">8</text></view>
+          </view>
+        </view>
+        <text class="rules-caption">The 9 small boards numbered 0-8</text>
+      </view>
+
+      <!-- Section 2: Your Move -->
+      <view class="rules-section">
+        <text class="rules-heading">2. Your Move</text>
+        <text class="rules-text">Play in any empty cell of the active board. The position you play determines which board your opponent must play in next.</text>
+        <view class="move-diagram">
+          <view class="cell-indices">
+            <view class="index-row">
+              <view class="index-cell active">0</view>
+              <view class="index-cell">1</view>
+              <view class="index-cell">2</view>
+            </view>
+            <view class="index-row">
+              <view class="index-cell active">3</view>
+              <view class="index-cell">4</view>
+              <view class="index-cell">5</view>
+            </view>
+            <view class="index-row">
+              <view class="index-cell">6</view>
+              <view class="index-cell">7</view>
+              <view class="index-cell">8</view>
+            </view>
+          </view>
+          <text class="arrow">→</text>
+          <view class="target-board">
+            <view class="target-row">
+              <view class="target-cell"></view>
+              <view class="target-cell"></view>
+              <view class="target-cell"></view>
+            </view>
+            <view class="target-row">
+              <view class="target-cell"></view>
+              <view class="target-cell highlight">4</view>
+              <view class="target-cell"></view>
+            </view>
+            <view class="target-row">
+              <view class="target-cell"></view>
+              <view class="target-cell"></view>
+              <view class="target-cell"></view>
+            </view>
+          </view>
+        </view>
+        <text class="rules-caption">Play cell 3 → opponent goes to board 3</text>
+      </view>
+
+      <!-- Section 3: Wildcard -->
+      <view class="rules-section">
+        <text class="rules-heading">3. The Wildcard Rule</text>
+        <text class="rules-text">If you're sent to a board that's already been won or is full, you can play in ANY available cell on the meta-board!</text>
+        <view class="wildcard-diagram">
+          <view class="meta-row">
+            <view class="mini-board won"><text class="mini-cell-text won-x">X</text></view>
+            <view class="mini-board won"><text class="mini-cell-text won-x">X</text></view>
+            <view class="mini-board won"><text class="mini-cell-text won-x">X</text></view>
+          </view>
+          <view class="meta-row">
+            <view class="mini-board"></view>
+            <view class="mini-board"></view>
+            <view class="mini-board"></view>
+          </view>
+          <view class="meta-row">
+            <view class="mini-board wildcard"><text class="mini-cell-text wildcard">?</text></view>
+            <view class="mini-board"></view>
+            <view class="mini-board"></view>
+          </view>
+        </view>
+        <text class="rules-caption">Board 0 is won. Player sent here → play anywhere!</text>
+      </view>
+
+      <!-- Section 4: Winning a Board -->
+      <view class="rules-section">
+        <text class="rules-heading">4. Winning a Board</text>
+        <text class="rules-text">Get 3 of your marks in a row within a small board to win it. Rows, columns, and diagonals all count.</text>
+        <view class="single-board-diagram">
+          <view class="board-row">
+            <view class="board-cell win"><text class="cell-mark x-mark">X</text></view>
+            <view class="board-cell"></view>
+            <view class="board-cell win"><text class="cell-mark x-mark">X</text></view>
+          </view>
+          <view class="board-row">
+            <view class="board-cell"></view>
+            <view class="board-cell win-center"><text class="cell-mark x-mark">X</text></view>
+            <view class="board-cell"></view>
+          </view>
+          <view class="board-row">
+            <view class="board-cell win"><text class="cell-mark x-mark">X</text></view>
+            <view class="board-cell"></view>
+            <view class="board-cell"></view>
+          </view>
+        </view>
+        <text class="rules-caption red">X wins this board!</text>
+      </view>
+
+      <!-- Section 5: Winning the Game -->
+      <view class="rules-section">
+        <text class="rules-heading">5. Winning the Game</text>
+        <text class="rules-text">Win the game by claiming 3 small boards in a row on the meta-board (horizontal, vertical, or diagonal).</text>
+        <view class="win-diagram">
+          <view class="meta-row">
+            <view class="mini-board won-x"><text class="mini-cell-text">X</text></view>
+            <view class="mini-board won-x"><text class="mini-cell-text">X</text></view>
+            <view class="mini-board"></view>
+          </view>
+          <view class="meta-row">
+            <view class="mini-board"></view>
+            <view class="mini-board"></view>
+            <view class="mini-board"></view>
+          </view>
+          <view class="meta-row">
+            <view class="mini-board"></view>
+            <view class="mini-board"></view>
+            <view class="mini-board won-x"><text class="mini-cell-text">X</text></view>
+          </view>
+        </view>
+        <text class="rules-caption red">X wins the diagonal!</text>
+      </view>
+
+      <!-- Section 6: Draw -->
+      <view class="rules-section">
+        <text class="rules-heading">6. Draw</text>
+        <text class="rules-text">If all 81 cells are filled and no player has won 3 boards in a row, the game is a draw.</text>
+      </view>
+
+      <button class="rules-btn" bindtap="onCloseRules">Got it!</button>
+    </view>
+  </view>
 </view>

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import MetaBoard from './MetaBoard';
+import RulesModal from './RulesModal';
 import type { AIMode } from '../../lib/types';
 
 export default function Game() {
@@ -8,6 +9,19 @@ export default function Game() {
   const { currentPlayer, phase, aiMode } = state;
   const [selectedMode, setSelectedMode] = useState<'pvp' | 'ai' | null>(null);
   const [difficulty, setDifficulty] = useState<AIMode>('median');
+  const [showRules, setShowRules] = useState(false);
+
+  useEffect(() => {
+    const seenRules = localStorage.getItem('ten_rules_seen');
+    if (!seenRules) {
+      setShowRules(true);
+    }
+  }, []);
+
+  const handleCloseRules = () => {
+    localStorage.setItem('ten_rules_seen', 'true');
+    setShowRules(false);
+  };
 
   const handleStart = () => {
     if (selectedMode === 'pvp') {
@@ -141,6 +155,9 @@ export default function Game() {
         <div className={isSetup ? 'opacity-50 pointer-events-none' : ''}>
           <MetaBoard state={state} onMove={playMove} />
         </div>
+
+        {/* Rules Modal */}
+        {showRules && <RulesModal onClose={handleCloseRules} />}
       </div>
     </div>
   );
