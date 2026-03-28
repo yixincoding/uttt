@@ -116,6 +116,7 @@ Page({
 
   checkAndTriggerAI() {
     const { mode, currentPlayer, winner, difficulty, gameState } = this.data;
+    console.log('checkAndTriggerAI:', { mode, currentPlayer, winner });
 
     if (mode !== 'ai') return;
     if (currentPlayer !== 'o') return;
@@ -124,11 +125,14 @@ Page({
     this.setData({ isAIThinking: true });
 
     setTimeout(() => {
+      console.log('AI timeout firing');
       const move = ai.getBestMove(gameState, difficulty);
+      console.log('AI move:', move);
       if (move) {
         this.makeMove(move.boardIndex, move.cellIndex);
       }
       this.setData({ isAIThinking: false });
+      console.log('AI move complete, isAIThinking set to false');
     }, 500);
   },
 
