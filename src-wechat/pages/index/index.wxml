@@ -53,35 +53,35 @@
         wx:for-index="col">
         <view class="cells-grid">
           <view class="cell-row">
-            <button class="cell {{getCellClass(row * 3 + col, 0)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="0" disabled="{{getCellDisabled(row * 3 + col, 0)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 0)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="0" disabled="{{getCellDisabled(row * 3 + col, 0)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 0)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 1)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="1" disabled="{{getCellDisabled(row * 3 + col, 1)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 1)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="1" disabled="{{getCellDisabled(row * 3 + col, 1)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 1)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 2)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="2" disabled="{{getCellDisabled(row * 3 + col, 2)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 2)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="2" disabled="{{getCellDisabled(row * 3 + col, 2)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 2)}}</text>
             </button>
           </view>
           <view class="cell-row">
-            <button class="cell {{getCellClass(row * 3 + col, 3)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="3" disabled="{{getCellDisabled(row * 3 + col, 3)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 3)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="3" disabled="{{getCellDisabled(row * 3 + col, 3)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 3)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 4)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="4" disabled="{{getCellDisabled(row * 3 + col, 4)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 4)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="4" disabled="{{getCellDisabled(row * 3 + col, 4)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 4)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 5)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="5" disabled="{{getCellDisabled(row * 3 + col, 5)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 5)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="5" disabled="{{getCellDisabled(row * 3 + col, 5)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 5)}}</text>
             </button>
           </view>
           <view class="cell-row">
-            <button class="cell {{getCellClass(row * 3 + col, 6)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="6" disabled="{{getCellDisabled(row * 3 + col, 6)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 6)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="6" disabled="{{getCellDisabled(row * 3 + col, 6)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 6)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 7)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="7" disabled="{{getCellDisabled(row * 3 + col, 7)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 7)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="7" disabled="{{getCellDisabled(row * 3 + col, 7)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 7)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 8)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell="8" disabled="{{getCellDisabled(row * 3 + col, 8)}}">
+            <button class="cell {{getCellClass(row * 3 + col, 8)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-cell-index="8" disabled="{{getCellDisabled(row * 3 + col, 8)}}">
               <text class="cell-text">{{getCellValue(row * 3 + col, 8)}}</text>
             </button>
           </view>

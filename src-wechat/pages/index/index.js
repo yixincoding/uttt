@@ -87,10 +87,12 @@ Page({
   },
 
   onCellTap(e) {
-    const { board, cell } = e.currentTarget.dataset;
+    const { board, cellindex } = e.currentTarget.dataset;
     const boardIndex = parseInt(board, 10);
-    const cellIndex = parseInt(cell, 10);
+    const cellIndex = parseInt(cellindex, 10);
     const globalCellIndex = boardIndex * 9 + cellIndex;
+
+    console.log('onCellTap:', { board, cellindex, boardIndex, cellIndex, globalCellIndex });
 
     const { gameState } = this.data;
     if (!gameLogic.canPlayMove(gameState, boardIndex, globalCellIndex)) {
