@@ -244,7 +244,9 @@ Page({
     const { gameState } = this.data;
     if (!gameState) return '';
     const globalIndex = boardIndex * 9 + cellIdx;
-    return gameState.cells[globalIndex] || '';
+    const value = gameState.cells[globalIndex] || '';
+    console.log('getCellValue:', { boardIndex, cellIdx, globalIndex, value });
+    return value;
   },
 
   getCellClass(boardIndex, cellIdx) {
@@ -259,7 +261,6 @@ Page({
 
   getCellDisabled(boardIndex, cellIdx) {
     const { gameState, phase, isAIThinking, winner } = this.data;
-    console.log('getCellDisabled called:', { boardIndex, cellIdx, gameState: !!gameState, phase, isAIThinking, winner });
     if (!gameState || phase !== 'playing' || isAIThinking) return true;
     if (winner) return true;
     const globalIndex = boardIndex * 9 + cellIdx;
