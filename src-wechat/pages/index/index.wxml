@@ -1,3 +1,78 @@
 <view class="container">
-  <text>TEN - Loading...</text>
+  <view class="header">
+    <text class="title">TEN</text>
+    <button class="reset-btn" bindtap="onReset">Reset</button>
+  </view>
+
+  <view class="mode-bar" wx:if="{{phase === 'setup'}}">
+    <view class="mode-section">
+      <text class="mode-label">Mode:</text>
+      <button 
+        class="mode-btn {{selectedMode === '2p' ? 'active' : ''}}" 
+        bindtap="onSelectMode" 
+        data-mode="2p">2 Player</button>
+      <button 
+        class="mode-btn {{selectedMode === 'ai' ? 'active' : ''}}" 
+        bindtap="onSelectMode" 
+        data-mode="ai">vs AI</button>
+    </view>
+
+    <view class="difficulty-section" wx:if="{{selectedMode === 'ai'}}">
+      <text class="mode-label">Difficulty:</text>
+      <button 
+        class="diff-btn {{selectedDifficulty === 'simple' ? 'active' : ''}}" 
+        bindtap="onSelectDifficulty" 
+        data-difficulty="simple">Simple</button>
+      <button 
+        class="diff-btn {{selectedDifficulty === 'median' ? 'active' : ''}}" 
+        bindtap="onSelectDifficulty" 
+        data-difficulty="median">Median</button>
+      <button 
+        class="diff-btn {{selectedDifficulty === 'hard' ? 'active' : ''}}" 
+        bindtap="onSelectDifficulty" 
+        data-difficulty="hard">Hard</button>
+    </view>
+
+    <button 
+      class="start-btn {{selectedMode ? '' : 'disabled'}}" 
+      bindtap="onStart"
+      disabled="{{!selectedMode}}">Start Game</button>
+  </view>
+
+  <view class="info-bar" wx:if="{{phase !== 'setup'}}">
+    <text class="info-text">{{selectedMode === 'ai' ? 'AI' : '2P'}} · {{selectedDifficulty}}</text>
+  </view>
+
+  <text class="status-text">{{statusText}}</text>
+
+  <button 
+    class="login-btn" 
+    wx:if="{{!hasLogin && phase !== 'setup'}}" 
+    open-type="getPhoneNumber" 
+    bindgetphonenumber="onGetPhoneNumber">Login to Save Progress</button>
+
+  <view class="meta-board" wx:if="{{gameState}}">
+    <view class="small-board-row" wx:for="{{3}}" wx:for-index="row">
+      <view 
+        class="small-board {{getSmallBoardClass(row * 3 + col)}}" 
+        wx:for="{{3}}" 
+        wx:for-index="col">
+        <view class="cells-grid">
+          <button 
+            class="cell {{getCellClass(row * 3 + col, cellIdx)}}" 
+            wx:for="{{3}}" 
+            wx:for-index="cellIdx"
+            bindtap="onCellTap" 
+            data-board="{{row * 3 + col}}" 
+            data-cell="{{cellIdx}}"
+            disabled="{{getCellDisabled(row * 3 + col, cellIdx)}}">
+            <text class="cell-text {{gameState.cells[(row * 3 + col) * 9 + cellIdx] === 'x' ? 'x-mark' : 'o-mark'}}">{{getCellValue(row * 3 + col, cellIdx)}}</text>
+          </button>
+        </view>
+        <view class="winner-overlay" wx:if="{{getSmallBoardWinner(row * 3 + col)}}">
+          <text class="winner-text {{getSmallBoardWinner(row * 3 + col) === 'x' ? 'x-mark' : 'o-mark'}}">{{getSmallBoardWinner(row * 3 + col) === 'x' ? 'X' : 'O'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

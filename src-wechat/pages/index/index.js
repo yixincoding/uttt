@@ -193,6 +193,38 @@ Page({
     });
   },
 
+  onShareAppMessage() {
+    const { mode, difficulty, winner } = this.data;
+    
+    let title = 'TEN — Ultimate Tic-Tac-Toe';
+    if (winner) {
+      title = winner === 'draw' 
+        ? 'TEN: It was a draw! 🎮' 
+        : `TEN: ${winner.toUpperCase()} Wins! 🎮`;
+    }
+    
+    return {
+      title,
+      path: `/pages/index/index?mode=${mode || ''}&difficulty=${difficulty || ''}`,
+    };
+  },
+
+  onShareTimeline() {
+    const { mode, difficulty, winner } = this.data;
+    
+    let title = 'TEN — Ultimate Tic-Tac-Toe';
+    if (winner) {
+      title = winner === 'draw' 
+        ? 'TEN: It was a draw! 🎮' 
+        : `TEN: ${winner.toUpperCase()} Wins! 🎮`;
+    }
+    
+    return {
+      title,
+      query: `mode=${mode || ''}&difficulty=${difficulty || ''}`,
+    };
+  },
+
   getCellValue(boardIndex, cellIdx) {
     const { gameState } = this.data;
     if (!gameState) return '';
