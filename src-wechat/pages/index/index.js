@@ -46,11 +46,8 @@ Page({
     const { selectedMode } = this.data;
     if (!selectedMode) return;
 
-    console.log('onStart called, selectedMode:', selectedMode);
     const aiMode = selectedMode === '2p' ? 'none' : this.data.difficulty;
-    console.log('aiMode:', aiMode);
     const gameState = gameLogic.createInitialState(aiMode);
-    console.log('gameState created:', gameState);
 
     this.setData({
       gameState,
@@ -63,7 +60,6 @@ Page({
       isAIThinking: false,
       statusText: this.computeStatusText()
     });
-    console.log('setData called with phase: playing');
   },
 
   onReset() {
@@ -88,17 +84,12 @@ Page({
 
   onCellTap(e) {
     const dataset = e.currentTarget.dataset;
-    console.log('dataset:', dataset);
-    console.log('ci:', dataset.ci);
     const boardIndex = parseInt(dataset.board, 10);
     const cellIndex = parseInt(dataset.ci, 10);
     const globalCellIndex = boardIndex * 9 + cellIndex;
 
-    console.log('onCellTap:', { boardIndex, cellIndex, globalCellIndex });
-
     const { gameState } = this.data;
     if (!gameLogic.canPlayMove(gameState, boardIndex, globalCellIndex)) {
-      console.log('canPlayMove failed:', { boardIndex, globalCellIndex, canPlay: gameLogic.canPlayMove(gameState, boardIndex, globalCellIndex) });
       return;
     }
 
@@ -107,9 +98,7 @@ Page({
 
   makeMove(boardIndex, cellIndex) {
     const { gameState } = this.data;
-    console.log('makeMove called:', { boardIndex, cellIndex, currentPlayer: gameState.currentPlayer });
     const newState = gameLogic.applyMove(gameState, boardIndex, cellIndex);
-    console.log('applyMove result, new cells:', newState.cells.filter(c => c !== null));
 
     const winner = newState.winner;
     const phase = winner ? 'gameover' : 'playing';
@@ -121,7 +110,6 @@ Page({
       phase,
       statusText: this.computeStatusText()
     });
-    console.log('setData called after makeMove');
 
     this.checkAndTriggerAI();
   },
@@ -251,9 +239,7 @@ Page({
     const { gameState } = this.data;
     if (!gameState) return '';
     const globalIndex = boardIndex * 9 + cellIdx;
-    const value = gameState.cells[globalIndex] || '';
-    console.log('getCellValue:', { boardIndex, cellIdx, globalIndex, value });
-    return value;
+    return gameState.cells[globalIndex] || '';
   },
 
   getCellClass(boardIndex, cellIdx) {
@@ -285,7 +271,6 @@ Page({
     if (boardState === 'o') return 'won-o';
     if (boardState === 'draw') return 'draw';
     if (gameState.activeBoard === boardIndex) return 'active';
-    console.log('getSmallBoardClass:', { boardIndex, boardState, activeBoard: gameState.activeBoard });
     return '';
   },
 
