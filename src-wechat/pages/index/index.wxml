@@ -45,12 +45,6 @@
 
   <text class="status-text">{{statusText}}</text>
 
-  <button 
-    class="login-btn" 
-    wx:if="{{!hasLogin && phase !== 'setup'}}" 
-    open-type="getPhoneNumber" 
-    bindgetphonenumber="onGetPhoneNumber">Login to Save Progress</button>
-
   <view class="meta-board" wx:if="{{gameState}}">
     <view class="small-board-row" wx:for="{{3}}" wx:for-index="row">
       <view 
