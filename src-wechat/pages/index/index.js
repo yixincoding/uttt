@@ -103,7 +103,9 @@ Page({
 
   makeMove(boardIndex, cellIndex) {
     const { gameState } = this.data;
+    console.log('makeMove called:', { boardIndex, cellIndex, currentPlayer: gameState.currentPlayer });
     const newState = gameLogic.applyMove(gameState, boardIndex, cellIndex);
+    console.log('applyMove result, new cells:', newState.cells.filter(c => c !== null));
 
     const winner = newState.winner;
     const phase = winner ? 'gameover' : 'playing';
@@ -115,6 +117,7 @@ Page({
       phase,
       statusText: this.computeStatusText()
     });
+    console.log('setData called after makeMove');
 
     this.checkAndTriggerAI();
   },
