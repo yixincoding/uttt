@@ -245,7 +245,9 @@ Page({
     const { gameState } = this.data;
     if (!gameState) return '';
     const globalIndex = boardIndex * 9 + cellIdx;
-    return gameState.cells[globalIndex] || '';
+    const value = gameState.cells[globalIndex] || '';
+    console.log('getCellValue:', { boardIndex, cellIdx, globalIndex, value, cells: gameState.cells.slice(0,10) });
+    return value;
   },
 
   getCellClass(boardIndex, cellIdx) {
