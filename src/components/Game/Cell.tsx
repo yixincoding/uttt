@@ -3,11 +3,12 @@ import { Player } from '../../lib/types';
 interface CellProps {
   value: Player | null;
   isWinning?: boolean;
+  isDimmed?: boolean;
   onClick: () => void;
   disabled: boolean;
 }
 
-export default function Cell({ value, isWinning, onClick, disabled }: CellProps) {
+export default function Cell({ value, isWinning, isDimmed, onClick, disabled }: CellProps) {
   return (
     <button
       onClick={onClick}
@@ -18,7 +19,8 @@ export default function Cell({ value, isWinning, onClick, disabled }: CellProps)
         transition-all duration-150
         ${value === 'x' ? 'text-red-500' : value === 'o' ? 'text-blue-500' : 'text-gray-400'}
         ${disabled || value !== null ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gray-100'}
-        ${isWinning ? 'bg-yellow-100' : 'bg-white'}
+        ${isWinning ? 'bg-yellow-100' : isDimmed ? 'bg-gray-50' : 'bg-white'}
+        ${isDimmed && value ? 'opacity-40' : ''}
         border border-gray-200
       `}
     >

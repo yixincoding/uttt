@@ -19,6 +19,8 @@ export default function SmallBoard({
   onCellClick,
   disabled
 }: SmallBoardProps) {
+  const isWon = boardState === 'x' || boardState === 'o';
+
   const getBorderClass = () => {
     if (boardState === 'x') return 'border-red-500 border-4';
     if (boardState === 'o') return 'border-blue-500 border-4';
@@ -29,7 +31,8 @@ export default function SmallBoard({
   };
 
   const getBgClass = () => {
-    if (boardState) return 'bg-gray-50';
+    if (isWon) return 'bg-gray-100';
+    if (boardState === 'draw') return 'bg-gray-50';
     if (isActive) return 'bg-indigo-50';
     if (isWildcard) return 'bg-purple-50';
     return 'bg-white';
@@ -60,19 +63,20 @@ export default function SmallBoard({
           key={index}
           value={cell}
           isWinning={winningLine?.includes(index)}
+          isDimmed={isWon}
           onClick={() => onCellClick(index)}
           disabled={disabled || boardState !== null}
         />
       ))}
 
-      {boardState && boardState !== 'draw' && (
+      {isWon && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <span
-            className={`text-4xl font-bold ${
-              boardState === 'x' ? 'text-red-400' : 'text-blue-400'
+            className={`text-6xl font-bold ${
+              boardState === 'x' ? 'text-red-500' : 'text-blue-500'
             }`}
           >
-            {boardState.toUpperCase()}
+            {boardState === 'x' ? 'X' : 'O'}
           </span>
         </div>
       )}
