@@ -138,6 +138,7 @@ Page({
 
   computeStatusText() {
     const { winner, isAIThinking, phase, currentPlayer } = this.data;
+    console.log('computeStatusText:', { winner, isAIThinking, phase, currentPlayer });
     if (winner) {
       return winner === 'draw' ? 'Draw!' : `${winner.toUpperCase()} Wins!`;
     }
