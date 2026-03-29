@@ -58,7 +58,7 @@ Page({
       currentPlayer: 'x',
       winner: null,
       isAIThinking: false,
-      statusText: this.computeStatusText()
+      statusText: "X's Turn (Free move!)"
     });
   },
 
@@ -96,56 +96,38 @@ Page({
     this.makeMove(boardIndex, globalCellIndex);
   },
 
-  makeMove(boardIndex, cellIndex) {
-    const { gameState, isAIThinking } = this.data;
-    const newState = gameLogic.applyMove(gameState, boardIndex, cellIndex);
+  makeMove(boardIndex, globalCellIndex) {
+    const { gameState } = this.data;
+    const newState = gameLogic.applyMove(gameState, boardIndex, globalCellIndex);
 
     const winner = newState.winner;
     const phase = winner ? 'gameover' : 'playing';
+    const nextPlayer = newState.currentPlayer;
+
+    const freeMove = newState.activeBoard === null;
+    const statusText = winner 
+      ? (winner === 'draw' ? 'Draw!' : `${winner.toUpperCase()} Wins!`)
+      : `${nextPlayer.toUpperCase()}'s Turn${freeMove ? ' (Free move!)' : ''}`;
 
     this.setData({
       gameState: newState,
-      currentPlayer: newState.currentPlayer,
+      currentPlayer: nextPlayer,
       winner,
       phase,
       isAIThinking: false,
-      statusText: this.computeStatusText()
-    });
-
-    this.checkAndTriggerAI();
-  },
-
-  checkAndTriggerAI() {
-    const { mode, currentPlayer, winner, difficulty, gameState } = this.data;
-    console.log('checkAndTriggerAI:', { mode, currentPlayer, winner });
-
-    if (mode !== 'ai') return;
-    if (currentPlayer !== 'o') return;
-    if (winner) return;
-
-    this.setData({ isAIThinking: true });
-
-    setTimeout(() => {
-      console.log('AI timeout firing');
-      const move = ai.getBestMove(gameState, difficulty);
-      console.log('AI move:', move);
-      if (move) {
-        this.makeMove(move.boardIndex, move.cellIndex);
+      statusText
+    }, () => {
+      if (this.data.mode === 'ai' && nextPlayer === 'o' && !winner) {
+        this.setData({ isAIThinking: true, statusText: 'AI thinking...' }, () => {
+          setTimeout(() => {
+            const move = ai.getBestMove(this.data.gameState, this.data.difficulty);
+            if (move) {
+              this.makeMove(move.boardIndex, move.cellIndex);
+            }
+          }, 500);
+        });
       }
-      this.setData({ isAIThinking: false });
-      console.log('AI move complete, isAIThinking set to false');
-    }, 500);
-  },
-
-  computeStatusText() {
-    const { winner, isAIThinking, phase, currentPlayer } = this.data;
-    console.log('computeStatusText:', { winner, isAIThinking, phase, currentPlayer });
-    if (winner) {
-      return winner === 'draw' ? 'Draw!' : `${winner.toUpperCase()} Wins!`;
-    }
-    if (isAIThinking) return 'AI thinking...';
-    if (phase === 'setup') return 'Select mode to start';
-    return `${currentPlayer.toUpperCase()}'s Turn`;
+    });
   },
 
   onGetPhoneNumber(e) {
@@ -154,9 +136,6 @@ Page({
 
       wx.login({
         success: (loginRes) => {
-          console.log('Phone auth code:', code);
-          console.log('Login code:', loginRes.code);
-
           this.setData({ hasLogin: true });
 
           const app = getApp();
@@ -239,52 +218,5 @@ Page({
       title,
       query: `mode=${mode || ''}&difficulty=${difficulty || ''}`,
     };
-  },
-
-  getCellValue(boardIndex, cellIdx) {
-    const { gameState } = this.data;
-    if (!gameState) return '';
-    const globalIndex = boardIndex * 9 + cellIdx;
-    const value = gameState.cells[globalIndex] || '';
-    console.log('getCellValue:', { boardIndex, cellIdx, globalIndex, value, cells: gameState.cells.slice(0,10) });
-    return value;
-  },
-
-  getCellClass(boardIndex, cellIdx) {
-    const { gameState } = this.data;
-    if (!gameState) return '';
-    const globalIndex = boardIndex * 9 + cellIdx;
-    const value = gameState.cells[globalIndex];
-    if (value === 'x') return 'x-mark';
-    if (value === 'o') return 'o-mark';
-    return '';
-  },
-
-  getCellDisabled(boardIndex, cellIdx) {
-    const { gameState, phase, isAIThinking, winner } = this.data;
-    if (!gameState || phase !== 'playing' || isAIThinking) return true;
-    if (winner) return true;
-    const globalIndex = boardIndex * 9 + cellIdx;
-    if (gameState.cells[globalIndex] !== null) return true;
-    if (gameState.boards[boardIndex] !== null) return true;
-    if (gameState.activeBoard !== null && gameState.activeBoard !== boardIndex) return true;
-    return false;
-  },
-
-  getSmallBoardClass(boardIndex) {
-    const { gameState } = this.data;
-    if (!gameState) return '';
-    const boardState = gameState.boards[boardIndex];
-    if (boardState === 'x') return 'won-x';
-    if (boardState === 'o') return 'won-o';
-    if (boardState === 'draw') return 'draw';
-    if (gameState.activeBoard === boardIndex) return 'active';
-    return '';
-  },
-
-  getSmallBoardWinner(boardIndex) {
-    const { gameState } = this.data;
-    if (!gameState) return '';
-    return gameState.boards[boardIndex] || '';
   }
 });

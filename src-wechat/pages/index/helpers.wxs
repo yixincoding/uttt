@@ -1,0 +1,59 @@
+function getCellValue(cells, boardIndex, cellIdx) {
+  if (!cells) return '';
+  var globalIndex = boardIndex * 9 + cellIdx;
+  var value = cells[globalIndex];
+  return value || '';
+}
+
+function getCellClass(cells, boardIndex, cellIdx) {
+  if (!cells) return '';
+  var globalIndex = boardIndex * 9 + cellIdx;
+  var value = cells[globalIndex];
+  if (value === 'x') return 'x-mark';
+  if (value === 'o') return 'o-mark';
+  return '';
+}
+
+function isBoardPlayable(cells, boards, boardIndex) {
+  if (boards[boardIndex] !== null) return false;
+  var start = boardIndex * 9;
+  for (var i = 0; i < 9; i++) {
+    if (cells[start + i] === null) return true;
+  }
+  return false;
+}
+
+function getSmallBoardClass(cells, boards, activeBoard, boardIndex) {
+  if (!boards) return '';
+  var boardState = boards[boardIndex];
+  if (boardState === 'x') return 'won-x';
+  if (boardState === 'o') return 'won-o';
+  if (boardState === 'draw') return 'draw';
+  if (activeBoard === boardIndex) return 'active';
+  if (activeBoard === null && isBoardPlayable(cells, boards, boardIndex)) return 'wildcard';
+  return '';
+}
+
+function getSmallBoardWinner(boards, boardIndex) {
+  if (!boards) return '';
+  return boards[boardIndex] || '';
+}
+
+function getCellDisabled(cells, boards, activeBoard, phase, isAIThinking, winner, boardIndex, cellIdx) {
+  if (!cells || phase !== 'playing' || isAIThinking) return true;
+  if (winner) return true;
+  var globalIndex = boardIndex * 9 + cellIdx;
+  if (cells[globalIndex] !== null) return true;
+  if (boards[boardIndex] !== null) return true;
+  if (activeBoard !== null && activeBoard !== boardIndex) return true;
+  return false;
+}
+
+module.exports = {
+  getCellValue: getCellValue,
+  getCellClass: getCellClass,
+  getSmallBoardClass: getSmallBoardClass,
+  getSmallBoardWinner: getSmallBoardWinner,
+  getCellDisabled: getCellDisabled,
+  isBoardPlayable: isBoardPlayable
+};

@@ -1,3 +1,5 @@
+<wxs module="helpers" src="./helpers.wxs"></wxs>
+
 <view class="container">
   <view class="header">
     <text class="title">TEN</text>
@@ -48,46 +50,46 @@
   <view class="meta-board" wx:if="{{gameState}}">
     <view class="small-board-row" wx:for="{{3}}" wx:for-index="row">
       <view 
-        class="small-board {{getSmallBoardClass(row * 3 + col)}}" 
+        class="small-board {{helpers.getSmallBoardClass(gameState.cells, gameState.boards, gameState.activeBoard, row * 3 + col)}}" 
         wx:for="{{3}}" 
         wx:for-index="col">
         <view class="cells-grid">
           <view class="cell-row">
-            <button class="cell {{getCellClass(row * 3 + col, 0)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="0" disabled="{{getCellDisabled(row * 3 + col, 0)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 0)}}</text>
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 0)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="0" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 0)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 0)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 1)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="1" disabled="{{getCellDisabled(row * 3 + col, 1)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 1)}}</text>
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 1)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="1" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 1)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 1)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 2)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="2" disabled="{{getCellDisabled(row * 3 + col, 2)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 2)}}</text>
-            </button>
-          </view>
-          <view class="cell-row">
-            <button class="cell {{getCellClass(row * 3 + col, 3)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="3" disabled="{{getCellDisabled(row * 3 + col, 3)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 3)}}</text>
-            </button>
-            <button class="cell {{getCellClass(row * 3 + col, 4)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="4" disabled="{{getCellDisabled(row * 3 + col, 4)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 4)}}</text>
-            </button>
-            <button class="cell {{getCellClass(row * 3 + col, 5)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="5" disabled="{{getCellDisabled(row * 3 + col, 5)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 5)}}</text>
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 2)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="2" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 2)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 2)}}</text>
             </button>
           </view>
           <view class="cell-row">
-            <button class="cell {{getCellClass(row * 3 + col, 6)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="6" disabled="{{getCellDisabled(row * 3 + col, 6)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 6)}}</text>
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 3)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="3" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 3)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 3)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 7)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="7" disabled="{{getCellDisabled(row * 3 + col, 7)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 7)}}</text>
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 4)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="4" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 4)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 4)}}</text>
             </button>
-            <button class="cell {{getCellClass(row * 3 + col, 8)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="8" disabled="{{getCellDisabled(row * 3 + col, 8)}}">
-              <text class="cell-text">{{getCellValue(row * 3 + col, 8)}}</text>
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 5)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="5" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 5)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 5)}}</text>
+            </button>
+          </view>
+          <view class="cell-row">
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 6)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="6" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 6)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 6)}}</text>
+            </button>
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 7)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="7" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 7)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 7)}}</text>
+            </button>
+            <button class="cell {{helpers.getCellClass(gameState.cells, row * 3 + col, 8)}}" bindtap="onCellTap" data-board="{{row * 3 + col}}" data-ci="8" disabled="{{helpers.getCellDisabled(gameState.cells, gameState.boards, gameState.activeBoard, phase, isAIThinking, winner, row * 3 + col, 8)}}">
+              <text class="cell-text">{{helpers.getCellValue(gameState.cells, row * 3 + col, 8)}}</text>
             </button>
           </view>
         </view>
-        <view class="winner-overlay" wx:if="{{getSmallBoardWinner(row * 3 + col)}}">
-          <text class="winner-text {{getSmallBoardWinner(row * 3 + col) === 'x' ? 'x-mark' : 'o-mark'}}">{{getSmallBoardWinner(row * 3 + col) === 'x' ? 'X' : 'O'}}</text>
+        <view class="winner-overlay" wx:if="{{helpers.getSmallBoardWinner(gameState.boards, row * 3 + col)}}">
+          <text class="winner-text {{helpers.getSmallBoardWinner(gameState.boards, row * 3 + col) === 'x' ? 'x-mark' : 'o-mark'}}">{{helpers.getSmallBoardWinner(gameState.boards, row * 3 + col) === 'x' ? 'X' : 'O'}}</text>
         </view>
       </view>
     </view>

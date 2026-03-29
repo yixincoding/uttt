@@ -146,8 +146,15 @@
 }
 
 .small-board.active {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+  background: rgba(20, 184, 166, 0.05);
+}
+
+.small-board.wildcard {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+  background: rgba(168, 85, 247, 0.05);
 }
 
 .small-board.won-x {
