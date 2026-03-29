@@ -215,6 +215,10 @@
   color: #3b82f6;
 }
 
+.draw-mark {
+  color: #888888;
+}
+
 .winner-overlay {
   position: absolute;
   top: 0;

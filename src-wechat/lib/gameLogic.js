@@ -39,6 +39,14 @@ function checkMetaWinner(boards) {
   return null;
 }
 
+function checkGameEnd(boards, cells, activeBoard) {
+  const winner = checkMetaWinner(boards);
+  if (winner) return winner;
+  
+  const tempState = { cells, boards, activeBoard };
+  return getValidMoves(tempState).length === 0 ? 'draw' : null;
+}
+
 function isBoardPlayable(cells, boards, boardIndex) {
   if (boards[boardIndex] !== null) return false;
   const boardCells = getBoardCells(boardIndex).map(i => cells[i]);
@@ -102,7 +110,7 @@ function applyMove(state, boardIndex, cellIndex) {
   }
   const targetBoard = cellIndex % 9;
   const finalActiveBoard = isBoardPlayable(cells, boards, targetBoard) ? targetBoard : null;
-  const winner = checkMetaWinner(boards);
+  const winner = checkGameEnd(boards, cells, finalActiveBoard);
   return {
     ...state,
     cells,
@@ -148,6 +156,7 @@ module.exports = {
   getCellBoard,
   checkBoardWinner,
   checkMetaWinner,
+  checkGameEnd,
   isBoardPlayable,
   canPlayMove,
   getValidMoves,

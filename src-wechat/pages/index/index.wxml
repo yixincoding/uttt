@@ -89,7 +89,7 @@
           </view>
         </view>
         <view class="winner-overlay" wx:if="{{helpers.getSmallBoardWinner(gameState.boards, row * 3 + col)}}">
-          <text class="winner-text {{helpers.getSmallBoardWinner(gameState.boards, row * 3 + col) === 'x' ? 'x-mark' : 'o-mark'}}">{{helpers.getSmallBoardWinner(gameState.boards, row * 3 + col) === 'x' ? 'X' : 'O'}}</text>
+          <text class="winner-text {{helpers.getSmallBoardWinner(gameState.boards, row * 3 + col) === 'x' ? 'x-mark' : helpers.getSmallBoardWinner(gameState.boards, row * 3 + col) === 'o' ? 'o-mark' : 'draw-mark'}}">{{helpers.getSmallBoardWinner(gameState.boards, row * 3 + col) === 'x' ? 'X' : helpers.getSmallBoardWinner(gameState.boards, row * 3 + col) === 'o' ? 'O' : '-'}}</text>
         </view>
       </view>
     </view>
