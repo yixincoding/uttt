@@ -110,7 +110,12 @@ function applyMove(state, boardIndex, cellIndex) {
     activeBoard: finalActiveBoard,
     winner,
     currentPlayer: state.currentPlayer === 'x' ? 'o' : 'x',
-    moveHistory: [...state.moveHistory, { player: state.currentPlayer, boardIndex, cellIndex }]
+    moveHistory: [...state.moveHistory, { player: state.currentPlayer, boardIndex, cellIndex }],
+    lastMove: {
+      player: state.currentPlayer,
+      boardIndex,
+      cellIndex
+    }
   };
 }
 
@@ -123,7 +128,8 @@ function createInitialState(aiMode) {
     phase: 'playing',
     winner: null,
     moveHistory: [],
-    aiMode
+    aiMode,
+    lastMove: null
   };
 }
 

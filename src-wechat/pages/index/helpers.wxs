@@ -49,11 +49,19 @@ function getCellDisabled(cells, boards, activeBoard, phase, isAIThinking, winner
   return false;
 }
 
+function isLastMove(lastMove, boardIndex, cellIdx) {
+  if (!lastMove) return '';
+  var globalIndex = boardIndex * 9 + cellIdx;
+  if (lastMove.cellIndex === globalIndex) return 'last-move';
+  return '';
+}
+
 module.exports = {
   getCellValue: getCellValue,
   getCellClass: getCellClass,
   getSmallBoardClass: getSmallBoardClass,
   getSmallBoardWinner: getSmallBoardWinner,
   getCellDisabled: getCellDisabled,
-  isBoardPlayable: isBoardPlayable
+  isBoardPlayable: isBoardPlayable,
+  isLastMove: isLastMove
 };
