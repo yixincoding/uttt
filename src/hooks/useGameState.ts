@@ -2,6 +2,7 @@ import { useReducer, useCallback, useEffect } from 'react';
 import { GameState, AIMode } from '../lib/types';
 import { createInitialState, applyMove, canPlayMove } from '../lib/gameLogic';
 import { getBestMove } from '../lib/ai';
+import { getLLMMove } from '../lib/llmAi';
 
 type GameAction =
   | { type: 'SET_AI_MODE'; aiMode: AIMode }
@@ -69,15 +70,26 @@ export function useGameState(): UseGameStateReturn {
   }, []);
 
   useEffect(() => {
-    if (state.phase === 'playing' && state.aiMode !== 'none' && state.currentPlayer === 'o' && !state.winner) {
-      const timeoutId = setTimeout(() => {
-        const bestMove = getBestMove(state, state.aiMode);
-        if (bestMove) {
-          dispatch({ type: 'PLAY_MOVE', boardIndex: bestMove.boardIndex, cellIndex: bestMove.cellIndex });
+    if (state.phase !== 'playing' || state.winner) return;
+    if (state.aiMode === 'none' || state.currentPlayer !== 'o') return;
+
+    if (state.aiMode === 'llm') {
+      let cancelled = false;
+      getLLMMove(state).then(move => {
+        if (!cancelled && move) {
+          dispatch({ type: 'PLAY_MOVE', boardIndex: move.boardIndex, cellIndex: move.cellIndex });
         }
-      }, 500);
-      return () => clearTimeout(timeoutId);
+      });
+      return () => { cancelled = true; };
     }
+
+    const timeoutId = setTimeout(() => {
+      const bestMove = getBestMove(state, state.aiMode);
+      if (bestMove) {
+        dispatch({ type: 'PLAY_MOVE', boardIndex: bestMove.boardIndex, cellIndex: bestMove.cellIndex });
+      }
+    }, 500);
+    return () => clearTimeout(timeoutId);
   }, [state]);
 
   return {

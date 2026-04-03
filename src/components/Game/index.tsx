@@ -84,13 +84,15 @@ export default function Game() {
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-500 font-medium">AI:</span>
                   <div className="flex gap-2 flex-1">
-                    {(['simple', 'median', 'hard'] as const).map((d) => (
+                    {(['simple', 'median', 'hard', 'llm'] as const).map((d) => (
                       <button
                         key={d}
                         onClick={() => setDifficulty(d)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                           difficulty === d
-                            ? 'bg-purple-600 text-white'
+                            ? d === 'llm'
+                              ? 'bg-orange-600 text-white'
+                              : 'bg-purple-600 text-white'
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         }`}
                       >
@@ -125,8 +127,8 @@ export default function Game() {
               {aiMode !== 'none' && (
                 <div className="flex items-center gap-2">
                   <span className="text-gray-500">AI:</span>
-                  <span className={`font-medium ${aiMode === 'simple' ? 'text-green-600' : aiMode === 'median' ? 'text-yellow-600' : 'text-red-600'}`}>
-                    {aiMode.charAt(0).toUpperCase() + aiMode.slice(1)}
+                  <span className={`font-medium ${aiMode === 'simple' ? 'text-green-600' : aiMode === 'median' ? 'text-yellow-600' : aiMode === 'hard' ? 'text-red-600' : 'text-orange-600'}`}>
+                    {aiMode.toUpperCase()}
                   </span>
                 </div>
               )}

@@ -2,7 +2,7 @@ export type Player = 'x' | 'o';
 export type CellState = Player | null;
 export type BoardState = Player | 'draw' | null;
 export type GamePhase = 'setup' | 'playing' | 'gameover';
-export type AIMode = 'none' | 'simple' | 'median' | 'hard';
+export type AIMode = 'none' | 'simple' | 'median' | 'hard' | 'llm';
 
 export interface Move {
   player: Player;
