@@ -31,6 +31,8 @@ export default function MetaBoard({ state, onMove }: MetaBoardProps) {
 
   const isDisabled = state.phase !== 'playing' || state.winner !== null;
 
+  const lastMove = state.moveHistory.length > 0 ? state.moveHistory[state.moveHistory.length - 1] : null;
+
   return (
     <div className="grid grid-cols-3 gap-3">
       {Array.from({ length: 9 }).map((_, boardIndex) => (
@@ -40,6 +42,7 @@ export default function MetaBoard({ state, onMove }: MetaBoardProps) {
           boardState={state.boards[boardIndex]}
           isActive={isBoardActive(boardIndex)}
           isWildcard={isWildcard(boardIndex)}
+          lastMoveCellIndex={lastMove && lastMove.boardIndex === boardIndex ? lastMove.cellIndex % 9 : null}
           onCellClick={(cellIndex) => handleCellClick(boardIndex, cellIndex)}
           disabled={isDisabled}
         />

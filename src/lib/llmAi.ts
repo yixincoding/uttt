@@ -1,4 +1,4 @@
-import { GameState } from './types';
+import { GameState, LLMMoveResult } from './types';
 import { getValidMoves } from './gameLogic';
 import { getBestMove } from './ai';
 
@@ -24,15 +24,23 @@ function formatBoardState(state: GameState): string {
   return lines.join('\n');
 }
 
-export async function getLLMMove(state: GameState): Promise<{ boardIndex: number; cellIndex: number } | null> {
+function fallbackResult(state: GameState, reason: string): LLMMoveResult {
+  const move = getBestMove(state, 'hard');
+  return {
+    boardIndex: move!.boardIndex,
+    cellIndex: move!.cellIndex,
+    reasoning: `Fallback to local hard AI: ${reason}`,
+    isFallback: true
+  };
+}
+
+export async function getLLMMove(state: GameState): Promise<LLMMoveResult | null> {
   const validMoves = getValidMoves(state);
   if (validMoves.length === 0) return null;
 
-  const fallback = () => getBestMove(state, 'hard');
-
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+    const timeout = setTimeout(() => controller.abort(), 65000);
 
     const response = await fetch('/api/ai-move', {
       method: 'POST',
@@ -47,18 +55,26 @@ export async function getLLMMove(state: GameState): Promise<{ boardIndex: number
 
     clearTimeout(timeout);
 
-    if (!response.ok) return fallback();
+    if (!response.ok) return fallbackResult(state, `server error (${response.status})`);
 
     const data = await response.json();
 
-    if (data.fallback || !data.move) return fallback();
+    if (data.fallback || !data.move) return fallbackResult(state, data.reason || 'LLM returned no valid move');
 
     const isValid = validMoves.some(
       m => m.boardIndex === data.move.boardIndex && m.cellIndex === data.move.cellIndex
     );
 
-    return isValid ? data.move : fallback();
-  } catch {
-    return fallback();
+    if (!isValid) return fallbackResult(state, 'LLM chose an invalid move');
+
+    return {
+      boardIndex: data.move.boardIndex,
+      cellIndex: data.move.cellIndex,
+      reasoning: data.reasoning || null,
+      isFallback: false
+    };
+  } catch (err) {
+    const reason = err instanceof DOMException && err.name === 'AbortError' ? 'request timed out' : err instanceof Error ? err.message : 'unknown error';
+    return fallbackResult(state, reason);
   }
 }

@@ -5,7 +5,7 @@ import RulesModal from './RulesModal';
 import type { AIMode } from '../../lib/types';
 
 export default function Game() {
-  const { state, startGame, playMove, resetGame, setAIMode } = useGameState();
+  const { state, startGame, playMove, resetGame, setAIMode, lastAIResult } = useGameState();
   const { currentPlayer, phase, aiMode } = state;
   const [selectedMode, setSelectedMode] = useState<'pvp' | 'ai' | null>(null);
   const [difficulty, setDifficulty] = useState<AIMode>('median');
@@ -152,6 +152,23 @@ export default function Game() {
             </p>
           )}
         </div>
+
+        {/* AI Reasoning */}
+        {aiMode === 'llm' && lastAIResult && !isSetup && (
+          <div className={`rounded-lg p-3 text-sm border ${lastAIResult.isFallback ? 'bg-amber-50 border-amber-200' : 'bg-orange-50 border-orange-200'}`}>
+            <div className="flex items-center gap-2 mb-1">
+              <span className={`text-xs font-semibold uppercase tracking-wide ${lastAIResult.isFallback ? 'text-amber-600' : 'text-orange-600'}`}>
+                {lastAIResult.isFallback ? 'AI (Fallback)' : 'AI'}
+              </span>
+              <span className="text-xs text-gray-400">
+                Board {lastAIResult.boardIndex}, Cell {lastAIResult.cellIndex}
+              </span>
+            </div>
+            <p className="text-gray-700 leading-snug">
+              {lastAIResult.reasoning || 'No reasoning provided.'}
+            </p>
+          </div>
+        )}
 
         {/* Game Board */}
         <div className={isSetup ? 'opacity-50 pointer-events-none' : ''}>

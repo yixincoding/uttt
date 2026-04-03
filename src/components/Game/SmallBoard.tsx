@@ -7,6 +7,7 @@ interface SmallBoardProps {
   boardState: BoardState;
   isActive: boolean;
   isWildcard: boolean;
+  lastMoveCellIndex: number | null;
   onCellClick: (cellIndex: number) => void;
   disabled: boolean;
 }
@@ -16,6 +17,7 @@ export default function SmallBoard({
   boardState,
   isActive,
   isWildcard,
+  lastMoveCellIndex,
   onCellClick,
   disabled
 }: SmallBoardProps) {
@@ -64,6 +66,7 @@ export default function SmallBoard({
           value={cell}
           isWinning={winningLine?.includes(index)}
           isDimmed={isWon}
+          isLastMove={lastMoveCellIndex === index}
           onClick={() => onCellClick(index)}
           disabled={disabled || boardState !== null}
         />

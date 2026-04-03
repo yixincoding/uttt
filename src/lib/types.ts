@@ -25,3 +25,10 @@ export interface AIBestMoveResult {
   boardIndex: number;
   cellIndex: number;
 }
+
+export interface LLMMoveResult {
+  boardIndex: number;
+  cellIndex: number;
+  reasoning: string | null;
+  isFallback: boolean;
+}

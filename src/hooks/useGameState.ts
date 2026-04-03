@@ -1,5 +1,5 @@
-import { useReducer, useCallback, useEffect } from 'react';
-import { GameState, AIMode } from '../lib/types';
+import { useReducer, useCallback, useEffect, useState } from 'react';
+import { GameState, AIMode, LLMMoveResult } from '../lib/types';
 import { createInitialState, applyMove, canPlayMove } from '../lib/gameLogic';
 import { getBestMove } from '../lib/ai';
 import { getLLMMove } from '../lib/llmAi';
@@ -16,6 +16,7 @@ interface UseGameStateReturn {
   startGame: () => void;
   playMove: (boardIndex: number, cellIndex: number) => void;
   resetGame: () => void;
+  lastAIResult: LLMMoveResult | null;
 }
 
 const initialState: GameState = {
@@ -52,12 +53,14 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
 export function useGameState(): UseGameStateReturn {
   const [state, dispatch] = useReducer(gameReducer, initialState);
+  const [lastAIResult, setLastAIResult] = useState<LLMMoveResult | null>(null);
 
   const setAIMode = useCallback((aiMode: AIMode) => {
     dispatch({ type: 'SET_AI_MODE', aiMode });
   }, []);
 
   const startGame = useCallback(() => {
+    setLastAIResult(null);
     dispatch({ type: 'START_GAME' });
   }, []);
 
@@ -66,6 +69,7 @@ export function useGameState(): UseGameStateReturn {
   }, []);
 
   const resetGame = useCallback(() => {
+    setLastAIResult(null);
     dispatch({ type: 'RESET' });
   }, []);
 
@@ -75,9 +79,10 @@ export function useGameState(): UseGameStateReturn {
 
     if (state.aiMode === 'llm') {
       let cancelled = false;
-      getLLMMove(state).then(move => {
-        if (!cancelled && move) {
-          dispatch({ type: 'PLAY_MOVE', boardIndex: move.boardIndex, cellIndex: move.cellIndex });
+      getLLMMove(state).then(result => {
+        if (!cancelled && result) {
+          setLastAIResult(result);
+          dispatch({ type: 'PLAY_MOVE', boardIndex: result.boardIndex, cellIndex: result.cellIndex });
         }
       });
       return () => { cancelled = true; };
@@ -97,6 +102,7 @@ export function useGameState(): UseGameStateReturn {
     setAIMode,
     startGame,
     playMove,
-    resetGame
+    resetGame,
+    lastAIResult
   };
 }
