@@ -35,6 +35,18 @@
         data-difficulty="hard">Hard</button>
     </view>
 
+    <view class="first-mover-section" wx:if="{{selectedMode === 'ai'}}">
+      <text class="mode-label">First move:</text>
+      <button 
+        class="diff-btn {{selectedFirstMover === 'human' ? 'active' : ''}}" 
+        bindtap="onSelectFirstMover" 
+        data-first-mover="human">Player first</button>
+      <button 
+        class="diff-btn {{selectedFirstMover === 'ai' ? 'active' : ''}}" 
+        bindtap="onSelectFirstMover" 
+        data-first-mover="ai">AI first</button>
+    </view>
+
     <button 
       class="start-btn {{selectedMode ? '' : 'disabled'}}" 
       bindtap="onStart"

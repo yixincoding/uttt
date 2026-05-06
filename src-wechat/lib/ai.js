@@ -136,6 +136,19 @@ function evaluateHeuristic(state, aiPlayer) {
     }
   }
 
+  const boardWeights = [1, 0, 1, 0, 2, 0, 1, 0, 1];
+  for (let b = 0; b < 9; b++) {
+    if (boards[b] === null) {
+      const boardCells = getBoardCells(b).map(i => state.cells[i]);
+      for (let ci = 0; ci < 9; ci++) {
+        if (boardCells[ci] === aiPlayer) {
+          const cellWeights = [1, 0, 1, 0, 2, 0, 1, 0, 1];
+          score += boardWeights[b] * cellWeights[ci];
+        }
+      }
+    }
+  }
+
   return score;
 }
 
@@ -334,11 +347,10 @@ function getMedianAIMove(state) {
 
   scoredMoves.sort((a, b) => b.score - a.score);
 
-  if (scoredMoves.length >= 2 && Math.random() < 0.2) {
-    return scoredMoves[1];
-  }
+  const topScore = scoredMoves[0].score;
+  const topMoves = scoredMoves.filter(m => m.score === topScore);
 
-  return scoredMoves[0];
+  return topMoves[Math.floor(Math.random() * topMoves.length)];
 }
 
 function getHardAIMove(state) {
@@ -359,6 +371,7 @@ function getHardAIMove(state) {
   for (let depth = 1; depth <= MAX_DEPTH; depth++) {
     let currentBestMove = null;
     let currentBestScore = -Infinity;
+    let currentBestMoves = [];
     let timedOut = false;
 
     for (const move of orderedMoves) {
@@ -373,7 +386,9 @@ function getHardAIMove(state) {
       
       if (result.score > currentBestScore) {
         currentBestScore = result.score;
-        currentBestMove = move;
+        currentBestMoves = [move];
+      } else if (result.score === currentBestScore) {
+        currentBestMoves.push(move);
       }
     }
 
@@ -381,7 +396,7 @@ function getHardAIMove(state) {
       break;
     }
 
-    bestMove = currentBestMove;
+    bestMove = currentBestMoves[Math.floor(Math.random() * currentBestMoves.length)];
     bestScore = currentBestScore;
     
     if (bestScore >= 10000) {

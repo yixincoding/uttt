@@ -9,6 +9,8 @@ Page({
     difficulty: 'median',
     selectedMode: null,
     selectedDifficulty: 'median',
+    selectedFirstMover: 'human',
+    humanPlayer: 'x',
     isAIThinking: false,
     hasLogin: false,
     winner: null,
@@ -42,6 +44,11 @@ Page({
     this.setData({ selectedDifficulty: difficulty, difficulty });
   },
 
+  onSelectFirstMover(e) {
+    const firstMover = e.currentTarget.dataset.firstMover;
+    this.setData({ selectedFirstMover: firstMover });
+  },
+
   onStart() {
     const { selectedMode } = this.data;
     if (!selectedMode) return;
@@ -49,16 +56,33 @@ Page({
     const aiMode = selectedMode === '2p' ? 'none' : this.data.difficulty;
     const gameState = gameLogic.createInitialState(aiMode);
 
+    const humanPlayer = (selectedMode === 'ai' && this.data.selectedFirstMover === 'ai')
+      ? 'o'
+      : 'x';
+
+    const aiGoesFirst = selectedMode === 'ai' && humanPlayer === 'o';
+
     this.setData({
       gameState,
       phase: 'playing',
       mode: selectedMode,
       difficulty: this.data.difficulty,
       selectedDifficulty: this.data.difficulty,
+      humanPlayer,
       currentPlayer: 'x',
       winner: null,
-      isAIThinking: false,
-      statusText: "X's Turn (Free move!)"
+      isAIThinking: aiGoesFirst,
+      statusText: aiGoesFirst ? 'AI thinking...' : "X's Turn (Free move!)"
+    }, () => {
+      // If AI goes first, trigger AI move immediately
+      if (aiGoesFirst) {
+        setTimeout(() => {
+          const move = ai.getBestMove(this.data.gameState, this.data.difficulty);
+          if (move) {
+            this.makeMove(move.boardIndex, move.cellIndex);
+          }
+        }, 500);
+      }
     });
   },
 
@@ -74,6 +98,8 @@ Page({
       difficulty: 'median',
       selectedMode: null,
       selectedDifficulty: 'median',
+      selectedFirstMover: 'human',
+      humanPlayer: 'x',
       isAIThinking: false,
       hasLogin: false,
       winner: null,
@@ -94,6 +120,17 @@ Page({
     }
 
     this.makeMove(boardIndex, globalCellIndex);
+  },
+
+  _triggerAIMove() {
+    this.setData({ isAIThinking: true, statusText: 'AI thinking...' }, () => {
+      setTimeout(() => {
+        const move = ai.getBestMove(this.data.gameState, this.data.difficulty);
+        if (move) {
+          this.makeMove(move.boardIndex, move.cellIndex);
+        }
+      }, 500);
+    });
   },
 
   makeMove(boardIndex, globalCellIndex) {
@@ -117,15 +154,8 @@ Page({
       isAIThinking: false,
       statusText
     }, () => {
-      if (this.data.mode === 'ai' && nextPlayer === 'o' && !winner) {
-        this.setData({ isAIThinking: true, statusText: 'AI thinking...' }, () => {
-          setTimeout(() => {
-            const move = ai.getBestMove(this.data.gameState, this.data.difficulty);
-            if (move) {
-              this.makeMove(move.boardIndex, move.cellIndex);
-            }
-          }, 500);
-        });
+      if (this.data.mode === 'ai' && nextPlayer !== this.data.humanPlayer && !winner) {
+        this._triggerAIMove();
       }
     });
   },

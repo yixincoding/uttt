@@ -35,7 +35,8 @@
 }
 
 .mode-section,
-.difficulty-section {
+.difficulty-section,
+.first-mover-section {
   display: flex;
   flex-direction: row;
   align-items: center;
