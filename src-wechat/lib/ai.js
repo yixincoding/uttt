@@ -137,13 +137,20 @@ function evaluateHeuristic(state, aiPlayer) {
   }
 
   const boardWeights = [1, 0, 1, 0, 2, 0, 1, 0, 1];
+  const cellWeights = [1, 0, 1, 0, 2, 0, 1, 0, 1];
+  const sendToWeights = [1, 2, 1, 2, 0, 2, 1, 2, 1];
+  const oppPlayer = aiPlayer === 'x' ? 'o' : 'x';
   for (let b = 0; b < 9; b++) {
     if (boards[b] === null) {
       const boardCells = getBoardCells(b).map(i => state.cells[i]);
       for (let ci = 0; ci < 9; ci++) {
+        const posValue = boardWeights[b] * cellWeights[ci];
+        const targetBoard = ci % 9;
+        const sendValue = sendToWeights[targetBoard];
         if (boardCells[ci] === aiPlayer) {
-          const cellWeights = [1, 0, 1, 0, 2, 0, 1, 0, 1];
-          score += boardWeights[b] * cellWeights[ci];
+          score += posValue + sendValue;
+        } else if (boardCells[ci] === oppPlayer) {
+          score -= posValue + sendValue;
         }
       }
     }
@@ -211,14 +218,20 @@ function getMovePriority(move, state, player) {
       priority -= 10;
     }
   }
-  
+
+  const targetBoard = move.cellIndex % 9;
+  const sendToWeights = { 4: -3, 0: -1, 2: -1, 6: -1, 8: -1, 1: 2, 3: 2, 5: 2, 7: 2 };
+  if (state.boards[targetBoard] === null) {
+    priority += sendToWeights[targetBoard] || 0;
+  }
+
   if (move.boardIndex === 4) priority += 5;
   else if ([0, 2, 6, 8].includes(move.boardIndex)) priority += 3;
-  
+
   const localCell = move.cellIndex % 9;
   if (localCell === 4) priority += 2;
   else if ([0, 2, 6, 8].includes(localCell)) priority += 1;
-  
+
   return priority;
 }
 
